@@ -1,0 +1,500 @@
+import myTheme from "./theme";
+
+export const theme = myTheme;
+
+import WidthContainer from "./layouts/width-container";
+import { CodeSurfer } from "code-surfer";
+
+# Desarrollo Web Fullstack - NodeJS
+
+## Repaso de Git
+
+<img
+    style={{
+        width: "20%",
+        height: "auto",
+        position: "absolute",
+        bottom: "20px",
+    }}
+    src="https://www.digitalhouse.com/ar/logo-dh-blanco.png"
+/>
+
+---
+
+# Temas de hoy
+
+-   Sistemas de control de versiones
+-   GIT
+    -   Términos
+    -   Comandos
+    -   Workflows de GIT
+        -   Git flow
+        -   Trunk-based Development
+-   Trabajar en un repo demostrando lo anterior
+
+---
+
+# ¿Qué es un VCS?
+
+(Version Control System)
+
+---
+
+<WidthContainer width="60%" center>
+
+## Version Control System
+
+Es un sistema que sigue la historia de los cambios a medida que la
+gente colabora en un proyecto. A medida que el proyecto evoluciona, el
+equipo puede modificar el proyecto actual con la confianza de que cualquier
+version anterior puede ser recuperada en **cualquier momento**.
+
+</WidthContainer>
+
+---
+
+# ¿Qué es un DVCS?
+
+(Distributed Version Control System)
+
+---
+
+<WidthContainer width="60%" center>
+
+## Distributed Version Control System
+
+Permiten acceso completo a cualquier archivo, rama o iteracion de
+un proyecto y permiten a cada usuario acceder a la historia
+**completa** y **autónoma** de todos los
+cambios. A diferencia de otros sistemas centralizados, los DVCSs no
+requieren una conexion constante con un repositorio central
+
+</WidthContainer>
+
+---
+
+# ¿Cuáles VCS existen?
+
+---
+
+## Más utilizados (en orden)
+
+-   Git - _distribuido_
+-   Mercurial - _distribuido_
+-   Subversion (svn) - _centralizado_
+-   Concurrent Versions System (cvs) - _centralizado_
+
+[Lista completa](https://en.wikipedia.org/wiki/List_of_version-control_software)
+
+---
+
+# ¿Por qué Git?
+
+---
+
+<WidthContainer width="30%">
+
+-   El más utilizado (~82%)
+-   Open-source
+-   Distribuido
+-   Fácil de aprender
+-   Liviano y extremadamente rápido
+-   Muchos features útiles:
+    -   [Branching local barato](https://git-scm.com/about/branching-and-merging)
+    -   [Areas de Staging](https://git-scm.com/about/staging-area)
+    -   [Multiples formas de trabajo](https://git-scm.com/about/distributed)
+    -   mucho más...
+
+</WidthContainer>
+
+[Más información](https://git-scm.com/about)
+
+---
+
+# Terminos de Git
+
+---
+
+## Repositorio
+
+<WidthContainer width="40%" center>
+
+Engloba la coleccion entera de archivos y carpetas de un proyecto, junto con
+la hitoria de revision de cada archivo.
+
+</WidthContainer>
+
+---
+
+## Commits
+
+<WidthContainer width="40%" center>
+
+La historia de cada archivo aparece como _"snapshots"_ en el tiempo llamados
+**_commits_**.
+
+</WidthContainer>
+
+---
+
+## Ramas
+
+<WidthContainer width="40%" center>
+
+Los commits existen como una relacion de lista vinculada entre ellos y se
+organizan en multiples lineas de desarrollo llamadas _**ramas**_.
+
+La rama principal usualmente es llamada `master`, pero puede tener otro nombre
+
+</WidthContainer>
+
+---
+
+## Refs
+
+<WidthContainer width="40%" center>
+
+Las referencias son nombres que apuntan a commits o a otras referencias (referencias simbólicas).
+
+</WidthContainer>
+
+<WidthContainer width="40%">
+Las dos más importantes:
+
+-   `head`: Es la referencia que apunta al _**último commit**_ de una rama en particular.
+
+-   `HEAD`: Es una referencia especial que apunta al `head` de la _**rama actual**_ del working dir
+
+</WidthContainer>
+
+---
+
+## Tags
+
+<WidthContainer width="40%" center>
+
+Son tipos especiales de referencias (refs), creadas por los devs para marcar un commit en particular.
+
+Se utilizan para nombrar releases o puntos importantes en el desarrollo, por ejemplo v1.0.0, v1.0.1, etc.
+
+Se crean usando el comando `git tag -a nombre` y se envian al servidor usando `git push origin nombre` o `git push origin --tags` para enviar todas
+
+</WidthContainer>
+
+---
+
+# Trabajando en Git
+
+---
+
+## Comandos
+
+<WidthContainer width="40%">
+
+-   `git init`
+-   `git clone repo [carpeta]`
+-   `git status`
+-   `git add file`
+-   `git commit -m "mensaje"`
+-   `git push`
+-   `git pull`
+-   `git fetch`
+-   `git merge`
+-   `git checkout` y `git checkout -b`
+-   `git stash` y `git stash pop`
+
+</WidthContainer>
+
+---
+
+## `git init`
+
+...
+
+---
+
+## ~~`git init`~~
+
+Tienen **prohibido** usarlo
+
+---
+
+## `git clone url [carpeta]`
+
+<WidthContainer width="40%" center>
+
+Clonar el repositorio en la carpeta. Si no se usa el tercer parametro, crea
+una carpeta en donde estemos parados, con el nombre del repositorio que clonamos.
+
+</WidthContainer>
+
+---
+
+## `git status`
+
+<WidthContainer width="40%" center>
+
+Nos permite analizar el estado actual del repo y principalmente del working directory.
+
+Recomendaciones
+
+Usar después de cada comando. _**Nunca**_ asumir el estado del repo. No cuesta nada correr este comando y es **super** claro el resultado.
+
+</WidthContainer>
+
+---
+
+## `git status` (continuacion...)
+
+-   A dónde apunta `head`,
+-   Estado de nuestro working directory
+-   Estado de nuestra area de staging
+-   Comparacion (desde el ultimo fetch) con la rama remota
+-   Sugerencias muy útiles en base a los datos anteriores
+
+---
+
+## `git add file`
+
+<WidthContainer width="40%" center>
+
+Agrega los _**cambios**_ del archivo al area de staging
+
+Recomendaciones
+
+Intenten no usar nunca más "`git add .`" y, por el contrario, hagan "`git add`" de cada archivo que hayan modificado.
+
+</WidthContainer>
+
+---
+
+## `git commit -m "mensaje"`
+
+<WidthContainer width="40%" center>
+
+Empaqueta los cambios _agregados al staging area_ en un nuevo commit local
+
+Recomendaciones
+
+Usar mensajes claros que especifiquen lo que se resolvio en ese commit. Nunca usen mensajes como "arregle cosas". Un mensaje correcto deberia ser:
+
+"Se resolvio el bug de la barra de navegacion en donde era imposible clickear los links porque se escapaban del cursor"
+
+</WidthContainer>
+
+---
+
+## `git push`
+
+<WidthContainer width="40%" center>
+
+Envia los commits nuevos de **esta rama** al _repositorio remoto_
+
+Recomendaciones
+
+Antes de hacer un commit+push, asegurense de que pueden hacer el push y no van a tener que hacer un pull (ver `git fetch`)
+
+</WidthContainer>
+
+---
+
+## `git pull`
+
+<WidthContainer width="40%" center>
+
+Trae los commits nuevos de **esta rama** del _repositorio remoto_
+
+</WidthContainer>
+
+---
+
+## `git fetch`
+
+<WidthContainer width="40%" center>
+
+Trae todos los commits de todas las ramas del repo remoto, pero **no los aplica al working dir**
+
+Recomendaciones
+
+Esto, en conjunto con `git status`, es muy útil para hacer un buen análisis del estado del repo antes de empezar a commitear.
+
+</WidthContainer>
+
+---
+
+## `git checkout "nombre"`
+
+<WidthContainer width="40%" center>
+
+Mueve el `HEAD` a la rama llamada "nombre", arrastrando cualquier cambio no commiteado
+
+</WidthContainer>
+
+## `git checkout -b "nombre"`
+
+<WidthContainer width="40%" center>
+
+Crea una rama basada en el commit actual llamada "nombre" y mueve el `HEAD` a esa rama, arrastrando cualquier cambio no commiteado
+
+</WidthContainer>
+
+---
+
+## `git stash`
+
+<WidthContainer width="40%" center>
+
+Empaqueta todos los cambios del working dir (staged o no) en una especie de commit sin nombre/mensaje, y luego deja el working dir limpio (sin cambios)
+
+</WidthContainer>
+
+## `git stash pop`
+
+<WidthContainer width="40%" center>
+
+Desempaqueta y aplica en el working dir el ultimo stash que habiamos guardado y lo remueve de la pila de stash
+
+</WidthContainer>
+
+---
+
+# Git Workflows
+
+---
+
+## Git Flow
+
+https://nvie.com/posts/a-successful-git-branching-model/
+
+-   Es el más usado entre las empresas grandes
+-   Complejo y muy estructurado
+-   Difícil de llevar a cabo con un equipo desorganizado
+-   Overkill (mi opinion y en la del autor)
+    -   Pensado hace más de 10 años para tipos de aplicaciones diferentes a las actuales
+    -   El autor sugiere utilizar [Github Flow](https://guides.github.com/introduction/flow/) en reemplazo.
+
+---
+
+## Trunk-based Development
+
+https://trunkbaseddevelopment.com/
+
+-   Simple y con pocos requerimientos
+-   Fácil de usar incluso para equipos desorganizados
+-   Escalable
+
+---
+
+# Metodologias
+
+---
+
+# 1. Inicializacion del proyecto
+
+-   Creamos el proyecto en github/gitlab/bitbucket
+-   Clonamos el repo vacio a nuestra pc
+-   Instalamos el proyecto
+-   Probamos que funciona
+-   Commit + Push
+
+---
+
+# 2. Dia normal (sin ramas)
+
+-   `git status` -> working dir limpio!
+-   `git pull` -> no pueden haber conflictos
+-   trabajamos hasta que estamos listos para subir nuestro trabajo.
+-   Probamos que funciona
+-   `git add <files>`
+-   `git commit` + `git push`
+
+---
+
+# 2. Trabajo normal (sin ramas)
+
+-   `git status` -> working dir limpio!
+-   `git pull` -> no pueden haber conflictos
+-   trabajamos hasta que estamos listos para subir nuestro trabajo.
+-   Probamos que funciona
+-   `git add <files>`
+-   `git commit` + `git push` -> esto puede fallar
+
+---
+
+# 2. Trabajo normal (sin ramas)
+
+-   `git status` -> working dir limpio!
+-   `git pull` -> no pueden haber conflictos
+-   trabajamos hasta que estamos listos para subir nuestro trabajo.
+-   Probamos que funciona
+-   `git add <files>`
+-   `git commit`
+-   `git pull` -> traigo el nuevo trabajo.
+    -   si hay conflictos, los soluciono
+    -   `git add` + `git commit`
+-   `git push`
+
+---
+
+# 2. Trabajo normal (sin ramas)
+
+-   `git status` -> working dir limpio!
+-   `git pull` -> no pueden haber conflictos
+-   trabajamos hasta que estamos listos para subir nuestro trabajo.
+-   Probamos que funciona
+-   `git add <files>`
+-   `git fetch` -> veo si hay cambios en el repo.
+    -   `git stash` -> guardo mis cambios y los saco del work dir
+    -   `git pull` -> aplico los cambios del repo remoto
+    -   `git stash pop` -> aplico mis cambios por arriba de los del remoto
+-   `git commit` + `git push` -> acá puede haber un conflicto
+
+---
+
+# 3. Trabajo normal (con ramas!)
+
+-   `git status` -> MASTER, working dir limpio!
+-   `git pull` -> MASTER, no pueden haber conflictos
+-   `git checkout -b <feature>` -> Creo la rama en la que voy a trabajar
+-   `git status` -> feature, working dir limpio!
+-   trabajamos hasta que estamos listos para subir nuestro trabajo.
+-   Probamos que funciona
+-   `git add <files>`
+-   `git commit` + `git push` -> acá **NO** puede haber un conflicto.
+
+---
+
+# 4. Merge de ramas
+
+-   `git status` -> feature, working dir limpio!
+-   `git merge master`-> acá pueden haber conflictos
+    -   `git status`
+    -   Soluciono los conflictos
+    -   Probamos que funciona -> muy importante!!!
+    -   `git add <files>` + `git commit`
+    -   `git push` -> muy importante!!!!
+-   `git checkout master` -> Me muevo a la rama Master
+-   `git merge <feature>` -> Acá no pueden haber conflictos
+-   `git push`
+
+---
+
+# Rompamos un poco más el repo...
+
+---
+
+# Gracias!
+
+pbaleztena@digitalhouse.com
+
+---
+
+# Bibliografia
+
+-   [VCS](https://en.wikipedia.org/wiki/Version_control)
+-   [List of VCSs](https://en.wikipedia.org/wiki/List_of_version-control_software)
+-   [Git Homepage](https://git-scm.com/about)
+-   [Git Docs](https://git-scm.com/docs)
+-   [Git Handbook](https://guides.github.com/introduction/git-handbook/)
+-   [Git Cheatsheet](https://github.github.com/training-kit/downloads/es_ES/github-git-cheat-sheet.pdf)
+-   [StackOverflow Surveys](https://insights.stackoverflow.com/survey)
